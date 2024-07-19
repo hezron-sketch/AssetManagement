@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maintenance</title>
+</head>
+<body>
+    <h1>Maintenance</h1>
+    
+    <h2>Pending Maintenance</h2>
+    {% if maintenance_records %}
+    <table>
+        <tr>
+            <th>Asset</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for maintenance in maintenance_records %}
+        <tr>
+            <td>{{ maintenance.asset.name }}</td>
+            <td>{{ maintenance.quantity }}</td>
+            <td>{{ maintenance.maintenance_date }}</td>
+            <td>
+                {% if maintenance.is_fixed %}
+                    Fixed
+                {% else %}
+                    Pending
+                {% endif %}
+            </td>
+            <td><a href="{% url 'fix_asset' maintenance.id %}">Fix</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No pending maintenance records.</p>
+    {% endif %}
+</body>
+</html>

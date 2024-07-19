@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Assets</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Track Assets</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Lend Asset</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#id_asset').change(function() {
+                var assetId = $(this).val();
+                $.ajax({
+                    url: "{% url 'get_asset_ids' %}",  // Define a URL pattern for this endpoint
+                    data: {
+                        'asset_id': assetId
+                    },
+                    success: function(data) {
+                        var idField = $('#id_id');
+                        idField.empty();
+                        $.each(data.ids, function(index, value) {
+                            idField.append($('<option>', {
+                                value: value.id,
+                                text: value.unique_id
+                            }));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

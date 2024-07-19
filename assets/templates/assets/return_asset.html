@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Return Asset</title>
+</head>
+<body>
+    <h1>Return Asset: {{ lend.asset.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Return</button>
+    </form>
+</body>
+</html>

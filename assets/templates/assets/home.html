@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Management Dashboard</title>
+    <style>
+        .hidden { display: none; }
+        .form-container { margin-top: 20px; }
+    </style>
+    <script>
+        function toggleForm() {
+            document.getElementById('add-asset-form').classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body>
+    <h1>Asset Management Dashboard</h1>
+    <h2>Available Assets</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Asset</th>
+            <th>Total Quantity</th>
+            <th>Available Quantity</th>
+        </tr>
+        {% for asset in assets %}
+        <tr>
+            <td>{{ asset.unique_id }}</td>
+            <td>{{ asset.name }}</td>
+            <td>{{ asset.total_quantity }}</td>
+            <td>{{ asset.available_quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="form-container">
+        
+        <button onclick="toggleForm()">Add Asset</button>
+        <form id="add-asset-form" method="post" class="hidden">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <h2>Assets Taken</h2>
+    {% if lent_assets %}
+        <table>
+            <tr>
+                <th>Asset</th>
+                <th>Quantity</th>
+                <th>Date Lent</th>
+            </tr>
+            {% for lend in lent_assets %}
+            <tr>
+                <td><a href="{% url 'return_asset' lend.id %}">{{ lend.asset.name }}</a></td>
+                <td>{{ lend.quantity }}</td>
+                <td>{{ lend.lent_date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No assets have been taken.</p>
+    {% endif %}
+
+    
+</body>
+</html>

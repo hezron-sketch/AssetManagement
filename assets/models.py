@@ -1,0 +1,51 @@
+from django.db import models
+import uuid
+
+class Asset(models.Model):
+    ASSET_CHOICES = [
+        ('Laptop', 'Laptop'),
+        ('Desktop', 'Desktop'),
+        ('Extension', 'Extension'),
+        ('Banner', 'Banner'),
+        ('Screen', 'Screen'),
+    ]
+    
+    name = models.CharField(max_length=255)
+    total_quantity = models.IntegerField()
+    available_quantity = models.IntegerField()
+    unique_id = models.CharField(max_length=50, unique=True)  # Change to CharField for custom prefix
+
+    def save(self, *args, **kwargs):
+        if not self.unique_id:
+            self.unique_id = self.generate_unique_id()
+        super().save(*args, **kwargs)
+
+    def generate_unique_id(self):
+        prefix = "AMS-SPH-"
+        base_id = uuid.uuid4().hex[:6].upper()  # Generate a unique part
+        return f"{prefix}{base_id}"
+
+    def __str__(self):
+        return self.name
+
+
+class Lend(models.Model):
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    lent_date = models.DateField(auto_now_add=True)
+    returned_date = models.DateField(null=True, blank=True)
+    condition = models.CharField(max_length=50, default='Good')
+    quantity_good = models.PositiveIntegerField(null=True, blank=True, default=0)
+    quantity_bad = models.PositiveIntegerField(null=True, blank=True, default=0)
+
+    def __str__(self):
+        return f"{self.asset.name} ({self.quantity})"
+
+class Maintenance(models.Model):
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    maintenance_date = models.DateField(auto_now_add=True)
+    is_fixed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.asset.name} ({self.quantity}) - {'Fixed' if self.is_fixed else 'Pending'}"
