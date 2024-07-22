@@ -38,6 +38,11 @@ class Lend(models.Model):
     condition = models.CharField(max_length=50, default='Good')
     quantity_good = models.PositiveIntegerField(null=True, blank=True, default=0)
     quantity_bad = models.PositiveIntegerField(null=True, blank=True, default=0)
+    person_picking = models.CharField(max_length=100, blank=True, null=True)
+    organisation = models.CharField(max_length=100, blank=True, null=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    picking = models.DateField(null=True, blank=True)
+    returning = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"Lend of {self.quantity} {self.asset.name} ({self.condition})"

@@ -208,12 +208,16 @@
                     <th>Asset</th>
                     <th>Quantity</th>
                     <th>Date Lent</th>
+                    <th>Person</th>
+                    <th>Org Name</th>
                 </tr>
                 {% for lend in lent_assets %}
                 <tr>
                     <td><a href="{% url 'return_asset' lend.id %}">{{ lend.asset.name }}</a></td>
                     <td>{{ lend.quantity }}</td>
                     <td>{{ lend.lent_date }}</td>
+                    <td>{{ lend.person_picking }}</td>
+                    <td>{{ lend.organisation }}</td>
                 </tr>
                 {% endfor %}
             </table>

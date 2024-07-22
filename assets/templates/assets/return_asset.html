@@ -135,7 +135,10 @@
                 <label for="id_returned_date">Returned Date:</label>
                 {{ form.returned_date }}
             </div>
-            
+            <div class="form-group">
+                <label for="id_condition">Condition:</label>
+                {{ form.condition }}
+            </div>
             <div class="form-group">
                 <label for="id_quantity_good">Quantity in Good Condition:</label>
                 {{ form.quantity_good }}
@@ -151,5 +154,19 @@
     <footer>
         <p>&copy; 2024 Swahilipot Hub. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quantityGoodInput = document.querySelector('input[name="quantity_good"]');
+            const quantityBadInput = document.querySelector('input[name="quantity_bad"]');
+            const totalQuantity = parseInt('{{ total_quantity }}', 10);
+
+            quantityGoodInput.addEventListener('input', function () {
+                const quantityGood = parseInt(quantityGoodInput.value, 10) || 0;
+                const quantityBad = totalQuantity - quantityGood;
+                quantityBadInput.value = quantityBad >= 0 ? quantityBad : 0;
+            });
+        });
+    </script>
 </body>
 </html>
