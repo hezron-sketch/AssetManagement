@@ -41,13 +41,14 @@
             color: #e0e0e0;
         }
         .container {
-            padding: 150px 20px 80px;
+            padding: 150px 20px 80px; /* Increased bottom padding */
             max-width: 800px;
             margin: 0 auto;
             text-align: left;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensure footer does not overlap */
         }
         h1 {
             font-size: 2.5em;
@@ -94,9 +95,10 @@
             color: white;
             text-align: center;
             padding: 15px 0;
-            position: fixed;
-            bottom: 0;
             width: 100%;
+            position: relative;
+            bottom: 0;
+            margin-top: 20px; /* Add margin to create space above the footer */
         }
     </style>
 </head>
@@ -106,6 +108,7 @@
         <a href="{% url 'home' %}">Asset</a>
         <a href="{% url 'track' %}">Track Assets</a>
         <a href="{% url 'maintenance' %}">Assets Maintenance</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
     </div>
 
     <div class="container">

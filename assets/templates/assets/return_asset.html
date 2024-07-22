@@ -120,6 +120,7 @@
         <a href="{% url 'home' %}">Asset</a>
         <a href="{% url 'track' %}">Track Assets</a>
         <a href="{% url 'maintenance' %}">Assets Maintenance</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
     </div>
 
     <div class="container">
@@ -134,10 +135,7 @@
                 <label for="id_returned_date">Returned Date:</label>
                 {{ form.returned_date }}
             </div>
-            <div class="form-group">
-                <label for="id_condition">Condition:</label>
-                {{ form.condition }}
-            </div>
+            
             <div class="form-group">
                 <label for="id_quantity_good">Quantity in Good Condition:</label>
                 {{ form.quantity_good }}

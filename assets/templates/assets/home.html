@@ -11,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             background: #f4f4f4;
+            padding-bottom: 60px; /* Ensure space for footer */
         }
         .navbar {
             background-color: #0056b3;
@@ -74,9 +75,10 @@
         .form-container {
             margin-top: 20px;
             text-align: center;
-            
         }
-        .hidden{display: none;}
+        .hidden {
+            display: none;
+        }
         .form-container button {
             background-color: #007bff;
             color: white;
@@ -93,16 +95,6 @@
         .form-container button:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
-        }
-        .hidden { display: none; }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
         }
         .submit-button {
             background-color: #28a745;
@@ -139,7 +131,7 @@
             font-size: 16px;
         }
         .form-container input[type="number"] {
-            -moz-appearance: textfield; /* Hide spinner in Firefox */
+            appearance: textfield; /* Hide spinner in Firefox */
         }
         .form-container input[type="number"]::-webkit-inner-spin-button,
         .form-container input[type="number"]::-webkit-outer-spin-button {
@@ -157,6 +149,15 @@
         .errorlist li {
             margin-bottom: 10px;
         }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -165,6 +166,7 @@
         <a href="{% url 'home' %}">Asset</a>
         <a href="{% url 'track' %}">Track Assets</a>
         <a href="{% url 'maintenance' %}">Assets Maintenance</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
     </div>
 
     <div class="container">
@@ -226,7 +228,7 @@
 
     <script>
         function toggleForm() {
-            document.getElementById('add-asset-form').form.classList.toggle('hidden');
+            document.getElementById('add-asset-form').classList.toggle('hidden');
         }
     </script>
 </body>

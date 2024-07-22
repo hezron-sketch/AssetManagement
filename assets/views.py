@@ -3,9 +3,32 @@ from .models import Asset, Lend, Maintenance
 from .forms import LendForm, MaintenanceForm, AddAssetForm
 from .forms import ReturnAssetForm
 from django.http import JsonResponse
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'assets/login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 def index(request):
     return render(request,'assets/index.html')
 
+
+@login_required(login_url=reverse_lazy('login'))
 def home(request):
     if request.method == 'POST':
         form = AddAssetForm(request.POST)
@@ -28,7 +51,7 @@ def home(request):
 
 
 
-
+@login_required(login_url=reverse_lazy('login'))
 def track(request):
     if request.method == 'POST':
         form = LendForm(request.POST)
@@ -44,7 +67,7 @@ def track(request):
 
 
 
-
+@login_required(login_url=reverse_lazy('login'))
 def maintenance(request):
     if request.method == 'POST':
         form = MaintenanceForm(request.POST)
@@ -64,7 +87,7 @@ def maintenance(request):
     maintenance_records = Maintenance.objects.filter(is_fixed=False)
     return render(request, 'assets/maintenance.html', {'form': form, 'maintenance_records': maintenance_records})
 
-
+@login_required(login_url=reverse_lazy('login'))
 def fix_asset(request, maintenance_id):
     maintenance = get_object_or_404(Maintenance, id=maintenance_id)
     if request.method == 'POST':
@@ -86,7 +109,7 @@ def fix_asset(request, maintenance_id):
 
 
 
-
+@login_required(login_url=reverse_lazy('login'))
 def return_asset(request, lend_id):
     lend = get_object_or_404(Lend, id=lend_id)
     if request.method == 'POST':
@@ -117,7 +140,7 @@ def return_asset(request, lend_id):
     
     return render(request, 'assets/return_asset.html', {'form': form, 'lend': lend})
 
-
+@login_required(login_url=reverse_lazy('login'))
 def get_asset_ids(request):
     asset_id = request.GET.get('asset_id', None)
     if asset_id:
