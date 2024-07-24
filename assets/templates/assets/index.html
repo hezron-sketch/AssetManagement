@@ -11,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             background: #f4f4f4;
-            color: #333; /* Default text color */
+            color: #333;
         }
         .navbar {
             background-color: #0056b3;
@@ -40,21 +40,21 @@
             color: #e0e0e0;
         }
         .container {
-            padding: 150px 20px 80px; /* Adjusted padding to accommodate content */
-            max-width: 800px;
+            padding: 80px 20px 80px; /* Adjusted padding to remove excess space */
+            max-width: 1200px;
             margin: 0 auto;
-            text-align: left; /* Align text to the left */
+            text-align: left;
         }
         .container h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
             color: #333;
-            text-align: center; /* Center align headings */
+            text-align: center;
         }
         .container p {
             font-size: 1.2em;
             color: #555;
-            line-height: 1.6; /* Improved line spacing for readability */
+            line-height: 1.6;
             margin-bottom: 20px;
         }
         .hero {
@@ -73,15 +73,15 @@
             margin-bottom: 0;
         }
         .section {
-            margin-bottom: 40px; /* Added spacing between sections */
+            margin-bottom: 40px;
         }
         .section h2 {
             font-size: 2em;
             margin-bottom: 15px;
-            color: #0056b3; /* Highlight section headings */
+            color: #0056b3;
         }
         .section ul {
-            list-style-type: disc; /* Use bullet points for lists */
+            list-style-type: disc;
             padding-left: 20px;
         }
         .section ul li {
@@ -98,6 +98,40 @@
             bottom: 0;
             width: 100%;
         }
+        
+        .dashboard-cards {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 20px;
+        }
+        .card {
+            background: #0056b3;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex: 1;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .card h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .card p {
+            margin: 5px 0;
+            font-size: 1.2em;
+        }
+        .card span {
+            display: block;
+            margin-top: 10px;
+            font-size: 1em;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            background-color: #003d7a;
+        }
     </style>
 </head>
 <body>
@@ -107,15 +141,38 @@
         <a href="{% url 'track' %}">Track Assets</a>
         <a href="{% url 'maintenance' %}">Assets Maintenance</a>
         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        
     </div>
 
     <div class="hero">
-        <h1>Swahilipot Hub Assets management systems </h1>
+        <h1>Swahilipot Hub Assets Management Systems</h1>
         <p>Manage and track your assets efficiently with our comprehensive system.</p>
     </div>
 
     <div class="container">
+        <!-- Dashboard Cards Section -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>Total Assets</h3>
+                <p class="count" data-target="1310">0</p>
+                <span>98%</span>
+            </div>
+            <div class="card">
+                <h3>Total Assets Borrowed</h3>
+                <p class="count" data-target="20">0</p>
+                <span>26%</span>
+            </div>
+            <div class="card">
+                <h3>Assets Under Maintenance</h3>
+                <p class="count" data-target="30">0</p>
+                <span>55%</span>
+            </div>
+            <div class="card">
+                <h3>New Assets</h3>
+                <p class="count" data-target="8200">0</p>
+                <span>89%</span>
+            </div>
+        </div>
+
         <div class="section">
             <h2>How Asset Lending Works</h2>
             <p>Asset lending at Swahilipot Hub allows individuals or departments to borrow assets for specific purposes. Here's how it works:</p>
@@ -142,5 +199,31 @@
     <footer>
         <p>&copy; 2024 Swahilipot Hub. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Counting animation script
+        document.addEventListener('DOMContentLoaded', function () {
+            const counters = document.querySelectorAll('.count');
+            const speed = 200; // The lower the slower
+
+            counters.forEach(counter => {
+                const animate = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+
+                    const increment = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(animate, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+
+                animate();
+            });
+        });
+    </script>
 </body>
 </html>
